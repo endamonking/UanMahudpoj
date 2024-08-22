@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Game_Manager : MonoBehaviour
 {
-    public List<GameObject> cardlist = new List<GameObject>();
+    public List<GameObject> allCardlist = new List<GameObject>();
+    private List<GameObject> cardlist = new List<GameObject>(); //in game card list
     public GameObject cardContainer;
     public int colum = 0, row = 0;
 
@@ -16,9 +17,14 @@ public class Game_Manager : MonoBehaviour
         {
             cardContainer.GetComponent<CardContainer>().modifyContainer(colum, row);
             int totalItem = colum * row;
+            //add card to cardlist
+            for (int a = 0; a < totalItem / 2; a++)
+            {
+
+            }
             for (int i =0; i < totalItem; i++)
             {
-                GameObject card = Instantiate(cardlist[0], cardlist[0].transform.position, Quaternion.identity, cardContainer.transform);
+                GameObject card = Instantiate(cardlist[Random.Range(0, cardlist.Count)], cardlist[0].transform.position, Quaternion.identity, cardContainer.transform);
             }
         }
         else

@@ -11,6 +11,8 @@ public class CardClicked : MonoBehaviour
     [SerializeField]
     private GameObject frontCard;
 
+    public int cardNo = 0; //use to check, is it the same card when matched
+
     public int timer = 0;
     public bool isFlipping = false;
 
