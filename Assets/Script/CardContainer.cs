@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,8 @@ using UnityEngine.UI;
 public class CardContainer : MonoBehaviour
 {
     public GridLayoutGroup GLG;
+    [SerializeField]
+    private GameObject childContainer;
     
 
     // Start is called before the first frame update
@@ -35,6 +38,15 @@ public class CardContainer : MonoBehaviour
         GLG.cellSize = new Vector2(xCell, yCell);
 
 
+    }
+
+    public void createCard(List<GameObject> cardList, int totalItem)
+    {
+        for (int i = 0; i < totalItem; i++)
+        {
+            GameObject childCardContainer = Instantiate(childContainer, transform);
+            GameObject card = Instantiate(cardList[UnityEngine.Random.Range(0, cardList.Count)], childCardContainer.transform);
+        }
     }
 
 }

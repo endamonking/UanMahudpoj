@@ -4,34 +4,29 @@ using UnityEngine;
 
 public class Game_Manager : MonoBehaviour
 {
+    public static Game_Manager Instance;
+
     public List<GameObject> allCardlist = new List<GameObject>();
     private List<GameObject> cardlist = new List<GameObject>(); //in game card list
     public GameObject cardContainer;
     public int colum = 0, row = 0;
 
+    private Card firstCard = null, secondCard = null;
 
     // Start is called before the first frame update
     void Start()
     {
-        if (cardContainer != null)
+        // Ensure there's only one instance of GameManager
+        if (Instance == null)
         {
-            cardContainer.GetComponent<CardContainer>().modifyContainer(colum, row);
-            int totalItem = colum * row;
-            //add card to cardlist
-            for (int a = 0; a < totalItem / 2; a++)
-            {
-                int randomIndex = Random.Range(0, allCardlist.Count);
-                cardlist.Add(allCardlist[randomIndex]);
-                cardlist.Add(allCardlist[randomIndex]);
-            }
-            ShuffleList(cardlist);
-            for (int i =0; i < totalItem; i++)
-            {
-                GameObject card = Instantiate(cardlist[Random.Range(0, cardlist.Count)], cardlist[0].transform.position, Quaternion.identity, cardContainer.transform);
-            }
+            Instance = this;
         }
         else
-            Debug.LogError("No Card Container please");
+        {
+            Destroy(gameObject);
+        }
+
+        createCard();
     }
 
     // Update is called once per frame
@@ -54,5 +49,55 @@ public class Game_Manager : MonoBehaviour
             list[n] = value;
         }
     }
+
+    public void createCard()
+    {
+        if (cardContainer != null)
+        {
+            CardContainer CC = cardContainer.GetComponent<CardContainer>();
+            CC.modifyContainer(colum, row);
+            int totalItem = colum * row;
+            //add card to cardlist
+            for (int a = 0; a < totalItem / 2; a++)
+            {
+                int randomIndex = Random.Range(0, allCardlist.Count);
+                cardlist.Add(allCardlist[randomIndex]);
+                cardlist.Add(allCardlist[randomIndex]);
+            }
+            ShuffleList(cardlist);
+            CC.createCard(cardlist, totalItem);
+        }
+        else
+            Debug.LogError("No Card Container please");
+    }
+
+    public void clickedCard(Card cardNumber)
+    {
+        if (firstCard == null)
+        {
+            firstCard = cardNumber;
+        }
+        else if (secondCard == null)
+        {
+            if (firstCard == cardNumber)
+                return;
+
+            secondCard = cardNumber;
+            if (firstCard.cardNo == secondCard.cardNo)
+            {
+                firstCard.matchedCard();
+                secondCard.matchedCard();
+            }
+            else
+            {
+                Debug.Log("N");
+            }
+            firstCard = null;
+            secondCard = null;
+    
+        }
+    }
+
+
 
 }

@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class CardClicked : MonoBehaviour
+public class Card : MonoBehaviour
 {
 
     [SerializeField]
@@ -33,12 +34,15 @@ public class CardClicked : MonoBehaviour
     public void clicked()
     {
         if (!isFlipping)
+        {
             startFlip();
+            Game_Manager.Instance.clickedCard(this);
+        }
     }
 
     private void startFlip()
     {
-        Debug.Log("sFlip");
+        
         isFlipping = true;
         StartCoroutine(flipping());
     }
@@ -54,7 +58,7 @@ public class CardClicked : MonoBehaviour
 
             if (timer >= 30)
             {
-                Debug.Log("FLIP");
+                //Debug.Log("FLIP");
             }
         }
         //Start shwoing front card
@@ -67,12 +71,19 @@ public class CardClicked : MonoBehaviour
 
             if (timer >= 60)
             {
-                Debug.Log("FLIP");
+                //Debug.Log("FLIP");
             }
         }
         timer = 0;
         isFlipping = false;
         transform.rotation = Quaternion.Euler(0, 0, 0);
+    }
+
+    public void matchedCard()
+    {
+        Button but = GetComponent<Button>();
+        but.interactable = false;
+        Destroy(this.gameObject, 1f);
     }
 
 }
