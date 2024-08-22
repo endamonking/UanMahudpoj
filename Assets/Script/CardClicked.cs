@@ -44,26 +44,26 @@ public class CardClicked : MonoBehaviour
     IEnumerator flipping()
     {
         //Rotating
-        for (int i = 0; i < 90; i++)
+        for (int i = 0; i < 30; i++)
         {
             yield return new WaitForSeconds(0.01f);
-            transform.Rotate(new Vector3(0, -1, 0));
+            transform.Rotate(new Vector3(0, -3, 0));
             timer++;
 
-            if (timer >= 90)
+            if (timer >= 30)
             {
                 Debug.Log("FLIP");
             }
         }
         //Start shwoing front card
         backCard.SetActive(false);
-        for (int i = 0; i < 90; i++)
+        for (int i = 0; i < 30; i++)
         {
             yield return new WaitForSeconds(0.01f);
-            transform.Rotate(new Vector3(0, -1, 0));
+            transform.Rotate(new Vector3(0, -3, 0));
             timer++;
 
-            if (timer >= 180)
+            if (timer >= 60)
             {
                 Debug.Log("FLIP");
             }
