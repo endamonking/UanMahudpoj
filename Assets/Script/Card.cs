@@ -20,9 +20,7 @@ public class Card : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (backCard.activeSelf != true)
-            backCard.SetActive(true);
-        
+        StartCoroutine(starting());
     }
 
     // Update is called once per frame
@@ -91,5 +89,17 @@ public class Card : MonoBehaviour
         but.interactable = false;
         Destroy(this.gameObject, 1f);
     }
+
+
+    //Use to show front card at start then flipping it back and start playing
+    IEnumerator starting()
+    {
+        backCard.SetActive(false);
+        isFlipping = true;
+        yield return new WaitForSeconds(3f);
+        StartCoroutine(flipping());
+        isFlipping = false;
+    }
+
 
 }

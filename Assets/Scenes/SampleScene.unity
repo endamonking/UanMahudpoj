@@ -1070,8 +1070,16 @@ MonoBehaviour:
   - {fileID: 8408025289381723953, guid: 4966527f4c34287439d0a65fabb85de8, type: 3}
   - {fileID: 6576791845120979730, guid: 71f197c6e68869d43a5076b9f57de5d6, type: 3}
   cardContainer: {fileID: 1548442327}
-  colum: 4
-  row: 4
+  colum: 2
+  row: 2
+  totalItem: 0
+  scoreTMP: {fileID: 186582306}
+  HPTMP: {fileID: 1308595733}
+  stageTMP: {fileID: 1071239173}
+  scoreMultiplier: 2
+  hp: 100
+  stage: 1
+  score: 0
 --- !u!1 &1397296401
 GameObject:
   m_ObjectHideFlags: 0

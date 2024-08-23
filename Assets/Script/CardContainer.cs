@@ -32,6 +32,7 @@ public class CardContainer : MonoBehaviour
         if (GLG == null)
             GLG = GetComponent<GridLayoutGroup>();
 
+        destroyChildren();
         GLG.constraintCount = columns;
         //cell size
         int width = 1000;
@@ -43,12 +44,25 @@ public class CardContainer : MonoBehaviour
 
     }
 
-    public void createCard(List<GameObject> cardList, int totalItem)
+    public void createCard(List<GameObject> cardList, int columns, int rows)
     {
+        modifyContainer(columns, rows);
+        int totalItem = columns * rows;
+
         for (int i = 0; i < totalItem; i++)
         {
             GameObject childCardContainer = Instantiate(childContainer, transform);
-            GameObject card = Instantiate(cardList[UnityEngine.Random.Range(0, cardList.Count)], childCardContainer.transform);
+            GameObject card = Instantiate(cardList[i], childCardContainer.transform);
+        }
+    }
+
+    private void destroyChildren()
+    {
+        // Loop through all the child objects
+        foreach (Transform child in transform)
+        {
+            // Destroy each child GameObject
+            Destroy(child.gameObject);
         }
     }
 
