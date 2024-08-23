@@ -137,7 +137,7 @@ public class Game_Manager : MonoBehaviour
             else
             {
                 StartCoroutine(flippingBack(firstCard, secondCard));
-                minusHP(40);
+                minusHP(5);
             }
             firstCard = null;
             secondCard = null;
