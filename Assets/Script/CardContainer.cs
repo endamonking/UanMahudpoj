@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
@@ -34,9 +35,12 @@ public class CardContainer : MonoBehaviour
 
         destroyChildren();
         GLG.constraintCount = columns;
+        RectTransform rectTransform = GetComponent<RectTransform>();
+        float w = rectTransform.rect.width;
+        float h = rectTransform.rect.height;
         //cell size
-        int width = 1000;
-        int height = 1000;
+        int width = Mathf.FloorToInt(w);
+        int height = Mathf.FloorToInt(h);
         int xCell = (width - ((columns - 1) * 20)) / columns;
         int yCell = (height - ((rows - 1) * 20)) / rows;
         GLG.cellSize = new Vector2(xCell, yCell);
