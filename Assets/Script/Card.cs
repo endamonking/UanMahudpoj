@@ -56,13 +56,13 @@ public class Card : MonoBehaviour
             transform.Rotate(new Vector3(0, -3, 0));
             timer++;
 
-            if (timer >= 30)
-            {
-                //Debug.Log("FLIP");
-            }
         }
         //Start shwoing front card
-        backCard.SetActive(false);
+        if (backCard.activeSelf)
+            backCard.SetActive(false);
+        else
+            backCard.SetActive(true);
+
         for (int i = 0; i < 30; i++)
         {
             yield return new WaitForSeconds(0.01f);
@@ -75,9 +75,15 @@ public class Card : MonoBehaviour
             }
         }
         timer = 0;
-        isFlipping = false;
         transform.rotation = Quaternion.Euler(0, 0, 0);
+    }    
+
+    public void resetFlip()
+    {
+        StartCoroutine(flipping());
+        isFlipping = false;
     }
+
 
     public void matchedCard()
     {

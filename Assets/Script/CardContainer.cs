@@ -29,6 +29,9 @@ public class CardContainer : MonoBehaviour
     //Size of box are 1000, 1000 and spacing 20
     public void modifyContainer(int columns, int rows)
     {
+        if (GLG == null)
+            GLG = GetComponent<GridLayoutGroup>();
+
         GLG.constraintCount = columns;
         //cell size
         int width = 1000;

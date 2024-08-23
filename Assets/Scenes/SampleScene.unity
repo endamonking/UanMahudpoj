@@ -1322,6 +1322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GLG: {fileID: 0}
+  childContainer: {fileID: 1569654763167197502, guid: a8d7de782103733459b0e2861ea08f34, type: 3}
 --- !u!1 &1627046490
 GameObject:
   m_ObjectHideFlags: 0

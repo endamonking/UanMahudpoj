@@ -90,12 +90,19 @@ public class Game_Manager : MonoBehaviour
             }
             else
             {
-                Debug.Log("N");
+                StartCoroutine(flippingBack(firstCard, secondCard));
             }
             firstCard = null;
             secondCard = null;
     
         }
+    }
+
+    IEnumerator flippingBack(Card firstCard, Card secondCard)
+    {
+        yield return new WaitForSeconds(1f);
+        firstCard.resetFlip();
+        secondCard.resetFlip();
     }
 
 
