@@ -74,7 +74,9 @@ public class Card : MonoBehaviour
             }
         }
         timer = 0;
-        transform.rotation = Quaternion.Euler(0, 0, 0);
+        //need to raotae back to 0 for clickable button
+        if (backCard.activeSelf == true)
+            transform.rotation = Quaternion.Euler(0, 0, 0);
     }    
 
     public void resetFlip()

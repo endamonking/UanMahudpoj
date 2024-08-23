@@ -17,21 +17,16 @@ public class Game_Manager : MonoBehaviour
 
     [Header("Text and score")]
     public TextMeshProUGUI scoreTMP;
-    public TextMeshProUGUI HPTMP, stageTMP;
+    public TextMeshProUGUI HPTMP, stageTMP, highScoreTMP;
     public int scoreMultiplier = 10, hp = 100, stage = 1, score = 0;
 
-    [Header("Game Over")]
+    [Header("Game Over and save")]
     public GameObject gameOverScreen;
+    public SaveAndLoadSystem saveScript;
 
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        gameOverScreen.SetActive(false);
-        scoreTMP.text = "Score : " + score.ToString(); 
-        HPTMP.text = "HP : " + hp.ToString(); 
-        stageTMP.text = "Stage : " + stage.ToString(); 
-
         if (Instance == null)
         {
             Instance = this;
@@ -40,6 +35,17 @@ public class Game_Manager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+    // Start is called before the first frame update
+    void Start()
+    {
+        gameOverScreen.SetActive(false);
+        scoreTMP.text = "Score : " + score.ToString(); 
+        HPTMP.text = "HP : " + hp.ToString(); 
+        stageTMP.text = "Stage : " + stage.ToString();
+
+        int highScore = PlayerPrefs.GetInt("HighScore", 0);
+        highScoreTMP.text = "Highest Score : " + highScore.ToString();
 
         createCard();
     }
@@ -49,6 +55,27 @@ public class Game_Manager : MonoBehaviour
     {
         
     }
+
+    //use to load save when come into game
+    public void loadSave()
+    {
+        saveStructure save = saveScript.loadSaveStructure();
+        if (save != null)
+        {
+            score = save.Score;
+            stage = save.Stage;
+            hp = save.HP;
+            row = save.Row;
+            colum = save.Column;
+            Start();
+        }
+        else
+        {
+            Debug.Log("No save found!");
+        }
+
+    }
+
 
     //using Fisher-Yates shuffle algorithm to shuffle
     private void ShuffleList<T>(List<T> list)
@@ -171,6 +198,13 @@ public class Game_Manager : MonoBehaviour
     public void showGameOver()
     {
         gameOverScreen.SetActive(true);
+        //save high score
+        int highScore = PlayerPrefs.GetInt("HighScore", 0);
+        if (score > highScore)
+        {
+            PlayerPrefs.SetInt("HighScore", score);
+            PlayerPrefs.Save();
+        }
     }
 
     public void reloadScreen()
