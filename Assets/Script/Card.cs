@@ -52,7 +52,7 @@ public class Card : MonoBehaviour
         for (int i = 0; i < 30; i++)
         {
             yield return new WaitForSeconds(0.01f);
-            transform.Rotate(new Vector3(0, -3, 0));
+            transform.Rotate(new Vector3(0, -3 , 0));
             timer++;
 
         }

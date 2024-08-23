@@ -12,6 +12,7 @@ public class saveStructure
     public int Stage;
     public int Column;
     public int Row;
+    public int Combo;
 }
 
 public class SaveAndLoadSystem : MonoBehaviour
@@ -43,6 +44,7 @@ public class SaveAndLoadSystem : MonoBehaviour
             save.Stage = GM.stage;
             save.Column = GM.colum;
             save.Row = GM.row;
+            save.Combo = GM.combo;
 
             string json = JsonUtility.ToJson(save);
             string path = Path.Combine(Application.persistentDataPath, "save.json");
@@ -78,6 +80,15 @@ public class SaveAndLoadSystem : MonoBehaviour
         }
 
         return null;
+    }
+
+    public void deleteSaveFile()
+    {
+        string filePath = Path.Combine(Application.persistentDataPath, "save.json");
+        if (File.Exists(filePath))
+        {
+            File.Delete(filePath);
+        }
     }
 
 }

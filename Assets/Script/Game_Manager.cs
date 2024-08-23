@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using Unity.Burst.Intrinsics;
 
 public class Game_Manager : MonoBehaviour
 {
@@ -17,8 +18,8 @@ public class Game_Manager : MonoBehaviour
 
     [Header("Text and score")]
     public TextMeshProUGUI scoreTMP;
-    public TextMeshProUGUI HPTMP, stageTMP, highScoreTMP;
-    public int scoreMultiplier = 10, hp = 100, stage = 1, score = 0;
+    public TextMeshProUGUI HPTMP, stageTMP, highScoreTMP, comboTMP;
+    public int scoreMultiplier = 10, hp = 100, stage = 1, score = 0, combo = 0;
 
     [Header("Game Over and save")]
     public GameObject gameOverScreen;
@@ -43,6 +44,7 @@ public class Game_Manager : MonoBehaviour
         scoreTMP.text = "Score : " + score.ToString(); 
         HPTMP.text = "HP : " + hp.ToString(); 
         stageTMP.text = "Stage : " + stage.ToString();
+        comboTMP.text = "Combo : " + combo.ToString();
 
         int highScore = PlayerPrefs.GetInt("HighScore", 0);
         highScoreTMP.text = "Highest Score : " + highScore.ToString();
@@ -67,6 +69,7 @@ public class Game_Manager : MonoBehaviour
             hp = save.HP;
             row = save.Row;
             colum = save.Column;
+            combo = save.Combo;
             Start();
         }
         else
@@ -151,9 +154,17 @@ public class Game_Manager : MonoBehaviour
 
     //update score and update text
     //and formular for my design is Score multiplier * Stage
+    //For combo if player can do more than 10 it will increase bonus point by third of combo score
     private void addScore (int number)
     {
-        score += number;
+        combo++;
+        updateCombo(combo);
+        int scoreNum = number;
+
+        if (combo >= 5)
+            scoreNum += combo / 3;
+
+        score += scoreNum;
         scoreTMP.text = "Score : " + score.ToString();
 
         cardCounter += 2;
@@ -178,11 +189,14 @@ public class Game_Manager : MonoBehaviour
             row += 2;
         }
         createCard();
+        //save progress
+        saveScript.save();
     }
 
     private void minusHP(int number)
     {
-        hp -= number;
+        updateCombo(0);
+         hp -= number;
         HPTMP.text = "HP : " + hp.ToString();
         AudioManager.Instance.playSFX(AudioManager.Instance.hurt);
         if (hp <= 0)
@@ -193,11 +207,18 @@ public class Game_Manager : MonoBehaviour
         }
     }
 
+    private void updateCombo(int number)
+    {
+        combo = number;
+        comboTMP.text = "Combo : " + combo.ToString();
+    }
+
     //Game over
 
     public void showGameOver()
     {
         gameOverScreen.SetActive(true);
+        saveScript.deleteSaveFile();
         //save high score
         int highScore = PlayerPrefs.GetInt("HighScore", 0);
         if (score > highScore)
@@ -214,4 +235,6 @@ public class Game_Manager : MonoBehaviour
         SceneManager.LoadScene(currentScene.name);
     }
 
+
+        
 }
