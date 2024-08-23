@@ -35,6 +35,7 @@ public class Card : MonoBehaviour
         {
             startFlip();
             Game_Manager.Instance.clickedCard(this);
+            AudioManager.Instance.playSFX(AudioManager.Instance.fliping);
         }
     }
 

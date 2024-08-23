@@ -27,7 +27,6 @@ public class Game_Manager : MonoBehaviour
         HPTMP.text = "HP : " + hp.ToString(); 
         stageTMP.text = "Stage : " + stage.ToString(); 
 
-        // Ensure there's only one instance of GameManager
         if (Instance == null)
         {
             Instance = this;
@@ -103,7 +102,7 @@ public class Game_Manager : MonoBehaviour
             else
             {
                 StartCoroutine(flippingBack(firstCard, secondCard));
-                minusHP(5);
+                minusHP(40);
             }
             firstCard = null;
             secondCard = null;
@@ -126,6 +125,7 @@ public class Game_Manager : MonoBehaviour
         scoreTMP.text = "Score : " + score.ToString();
 
         cardCounter += 2;
+        AudioManager.Instance.playSFX(AudioManager.Instance.scored);
         //If has no card remaining go to enxt stage
         if (cardCounter >= totalItem)
         {
@@ -135,7 +135,7 @@ public class Game_Manager : MonoBehaviour
     }
     IEnumerator nextStage()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
         stage++;
         stageTMP.text = "Stage : " + stage.ToString();
 
@@ -152,8 +152,10 @@ public class Game_Manager : MonoBehaviour
     {
         hp -= number;
         HPTMP.text = "HP : " + hp.ToString();
+        AudioManager.Instance.playSFX(AudioManager.Instance.hurt);
         if (hp <= 0)
         {
+            AudioManager.Instance.playSFX(AudioManager.Instance.gameOver);
             Debug.Log("Game Over");
         }
     }
