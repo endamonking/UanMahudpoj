@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class Game_Manager : MonoBehaviour
@@ -19,10 +20,14 @@ public class Game_Manager : MonoBehaviour
     public TextMeshProUGUI HPTMP, stageTMP;
     public int scoreMultiplier = 10, hp = 100, stage = 1, score = 0;
 
+    [Header("Game Over")]
+    public GameObject gameOverScreen;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        gameOverScreen.SetActive(false);
         scoreTMP.text = "Score : " + score.ToString(); 
         HPTMP.text = "HP : " + hp.ToString(); 
         stageTMP.text = "Stage : " + stage.ToString(); 
@@ -156,8 +161,23 @@ public class Game_Manager : MonoBehaviour
         if (hp <= 0)
         {
             AudioManager.Instance.playSFX(AudioManager.Instance.gameOver);
+            showGameOver();
             Debug.Log("Game Over");
         }
+    }
+
+    //Game over
+
+    public void showGameOver()
+    {
+        gameOverScreen.SetActive(true);
+    }
+
+    public void reloadScreen()
+    {
+        Scene currentScene = SceneManager.GetActiveScene();
+
+        SceneManager.LoadScene(currentScene.name);
     }
 
 }
